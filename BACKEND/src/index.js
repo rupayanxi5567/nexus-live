@@ -14,7 +14,7 @@ let app = express();
 let PORT = process.env.PORT || 3001;
 let FRONTEND_URL = process.env.FRONTEND_URL;
 
-let publicDir = path.json(process.cwd(), "public")
+let publicDir = path.join(process.cwd(), "public")
 
 app.use(express.json())
 app.use(cors({
