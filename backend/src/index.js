@@ -6,6 +6,7 @@ import { connectDB } from "./lib/db.js";
 import { clerkMiddleware } from "@clerk/express"
 import fs from "fs"
 import path from "path"
+import job from "./lib/cron.js"
 
 dns.setServers(["1.1.1.1"]);
 
@@ -36,5 +37,10 @@ if (fs.existsSync(publicDir)) {
 
 app.listen(PORT, () => {
     connectDB()
-    console.log(`SERVER IS RUNNING ON http://localhost:${PORT}`)
+    console.log(`SERVER IS RUNNING ON http://localhost:${PORT}`);
+
+    if (process.env.NODE_ENV === "production"){
+        job.start();
+    }
+
 })
