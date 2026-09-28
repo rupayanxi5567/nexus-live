@@ -8,6 +8,7 @@ import fs from "fs"
 import path from "path"
 import job from "./lib/cron.js"
 import clerkWebHooks from "./webhooks/clerk.webhooks.js"
+import authRoutes from "./routes/auth.routes.js";
 
 dns.setServers(["1.1.1.1"]);
 
@@ -30,6 +31,8 @@ app.use(clerkMiddleware())
 app.get("/health", (req, res) => {
     res.status(200).json({ message: "ok" })
 })
+
+app.use("/api/auth",authRoutes);
 
 if (fs.existsSync(publicDir)) {
     app.use(express.static(publicDir));
