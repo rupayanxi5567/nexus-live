@@ -1,6 +1,6 @@
 
 import { useEffect, useLayoutEffect, useState } from "react";
-import { DEFAULT_THEME_PRESET_ID } from "../data/herouiThemesPresets";
+import { DEFAULT_THEME_PRESET_ID } from "../data/herouiThemesPresets.js";
 import { applyThemePresetToDocument, isValidThemePreset, ThemeContext } from "./theme";
 
 function getSystemTheme() {
