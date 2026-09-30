@@ -5,6 +5,12 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
+    resolve: {
+        dedupe: ["react", "react-dom"],
+    },
+    optimizeDeps: {
+        exclude: ["lucide-react"],
+    },
     plugins: [
         react(),
         tailwindcss(),

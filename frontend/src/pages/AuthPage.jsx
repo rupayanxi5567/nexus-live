@@ -1,7 +1,7 @@
 import AuthHeader from "../components/auth/AuthHeader";
-import AuthHeroPannrl from "../components/auth/AuthHeroPannrl";
-import AuthActionPannrl from "../components/auth/AuthActionPannrl";
+import {AuthHeroPanel} from "../components/auth/AuthHeroPannel";
 import {useWallpaper} from "../contexts/wallpaper.js"
+import {AuthActionPanel} from "../components/auth/AuthActionPannel.jsx"
 
 const AuthPage = () => {
     let { frameStyle } = useWallpaper();
@@ -10,8 +10,8 @@ const AuthPage = () => {
             <div className="mx-auto flex w-full max-w-368 flex-1 flex-col overflow-hidden rounded-3xl border border-border bg-background text-foreground">
                 <AuthHeader />
                 <main className="relative flex flex-1 flex-col overflow-hidden md:flex-row">
-                    <AuthHeroPannrl />
-                    <AuthActionPannrl />
+                    <AuthHeroPanel />
+                    <AuthActionPanel />
                 </main>
             </div>
         </div>
