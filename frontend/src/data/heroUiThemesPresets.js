@@ -68,4 +68,4 @@ export const HERO_UI_THEME_PRESETS = [
   },
 ];
 
-export const DEFAULT_THEME_PRESET_ID = "default";
+export const DEFAULT_THEME_PRESET_ID = "default"
