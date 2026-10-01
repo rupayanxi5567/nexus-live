@@ -1,7 +1,8 @@
 import User from "../models/users.models.js";
 import Message from "../models/messages.models.js";
 import { hasImageKitConfig, uploadChatMedia } from "../lib/imagekit.js";
-import { getReceiverSocketId } from "../lib/socket.js";
+import { getReceiverSocketId, io } from "../lib/socket.js";
+
 
 export async function getUserForSidebar(req, res) {
     try {
@@ -36,7 +37,7 @@ export async function getconversationsForSidebar(req, res) {
                         $cond: [
                             { $eq: ["$senderId", loggedInUserId] },
                             "$receiverId",
-                            "senderId",
+                            "$senderId",
                         ],
                     },
                     lastMessageAt: { $max: "$createdAt" },
@@ -131,5 +132,3 @@ export async function sendMessages(req, res) {
     }
 }
 
-
-//4.37.22

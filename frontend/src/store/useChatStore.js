@@ -4,6 +4,8 @@ import { axiosInstance } from "../lib/axios";
 import { useAuthStore } from "./useAuthStore";
 import toast from "react-hot-toast";
 
+
+
 export const useChatStore = create(
     persist(
         (set, get) => ({
@@ -162,7 +164,7 @@ export const useChatStore = create(
             },
         }),
         {
-            name: "imessage-storage",
+            name: "Nexus-Live-storage",
             partialize: (state) => ({ isSoundEnabled: state.isSoundEnabled }),
         },
     ),
