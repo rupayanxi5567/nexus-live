@@ -66,7 +66,7 @@ export async function getMessages(req, res) {
         let { id: userToChatId } = req.params;
         let myId = req.user._id;
 
-        let message = Message.find({
+        let message = await Message.find({
             $or: [
                 { senderId: myId, receiverId: userToChatId },
                 { receiverId: myId, senderId: userToChatId },
@@ -81,9 +81,9 @@ export async function getMessages(req, res) {
 
 export async function sendMessages(req, res) {
     try {
-        let { text } = req.body;
-        let { id: receiverId } = req.params;
-        let senderId = req.user._id;
+        const { text } = req.body;
+        const { id: receiverId } = req.params;
+        const senderId = req.user._id;
 
         let imageUrl;
         let videoUrl;
@@ -94,32 +94,42 @@ export async function sendMessages(req, res) {
                     .status(500)
                     .json({ message: "Media upload is not configured" });
             }
-            let url = await uploadChatMedia(req.file);
+            const url = await uploadChatMedia(req.file);
             if (req.file.mimetype.startsWith("video/")) {
                 videoUrl = url;
             } else {
                 imageUrl = url;
             }
-            let newMessage = new Message({
-                senderId,
-                receiverId,
-                text,
-                image: imageUrl,
-                video: videoUrl,
-            });
-
-            await newMessage.save();
-
-            let receiverSocketId = getReceiverSocketId(receiverId);
-
-            if (receiverSocketId) {
-                io.to(receiverSocketId).emit("newMessage", newMessage);
-            }
-
-            res.status(201).json(newMessage);
         }
+
+        if (!text?.trim() && !imageUrl && !videoUrl) {
+            return res
+                .status(400)
+                .json({ message: "Text or media is required" });
+        }
+
+        const newMessage = new Message({
+            senderId,
+            receiverId,
+            text,
+            image: imageUrl,
+            video: videoUrl,
+        });
+
+        await newMessage.save();
+
+        const receiverSocketId = getReceiverSocketId(receiverId);
+
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
+
+        res.status(201).json(newMessage);
     } catch (e) {
         console.log(`ERROR IN sendMessages CONTROLLER ${e}`);
         res.status(500).json({ message: "Internal Server Error" });
     }
 }
+
+
+//4.37.22
